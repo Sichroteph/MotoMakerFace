@@ -1,6 +1,8 @@
 #include <pebble.h>
+#include "drawing_utils.h"
+#include "settings.h"
 
-static void draw_line(
+void draw_line(
   GContext *ctx,
   GPoint start,
   GPoint end,
@@ -15,11 +17,11 @@ static void draw_line(
     graphics_draw_line(ctx, start, end);
 }
 
-static void draw_hand(
+void draw_hand(
   GContext *ctx,
   GPoint start,
   int angle,
-  int inset,
+  int from_center,
   int length,
   int thickness,
   GColor color,
@@ -28,8 +30,8 @@ static void draw_hand(
 
   // Calculate where the start point of the hand goes
   GPoint hand_start = {
-    .x = (int16_t)(sin_lookup(angle) * (int32_t)inset / TRIG_MAX_RATIO) + start.x,
-    .y = (int16_t)(-cos_lookup(angle) * (int32_t)inset / TRIG_MAX_RATIO) + start.y,
+    .x = (int16_t)(sin_lookup(angle) * (int32_t)from_center / TRIG_MAX_RATIO) + start.x,
+    .y = (int16_t)(-cos_lookup(angle) * (int32_t)from_center / TRIG_MAX_RATIO) + start.y,
   };
 
   // Calculate where the end point of the hand goes
